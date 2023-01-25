@@ -1,0 +1,9 @@
+{
+    "db" : {
+        "host" : "localhost",
+        "port" : 3306,
+        "name" : "shopmanager",
+        "username" : "root",
+        "password" : "&Hx7yh5Mv!Wv2pbSgLXQFoWgzd9I&*"
+    }
+}

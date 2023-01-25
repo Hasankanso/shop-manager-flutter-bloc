@@ -1,0 +1,22 @@
+{
+    "fullname": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "address": "Address",
+    "city": "City",
+    "state": "State",
+    "zip": "Zip Code",
+    "country": "Country",
+    "company": "Company Name",
+    "website": "Website",
+    "message": "Message",
+    "submit": "Submit",
+    "Create Account": "Create Account",
+    "First Name": "First Name",
+    "Last Name": "Last Name",
+    "Position": "Position",
+    "Create a new User": "Add a new User",
+    "Create a new Supplier" : "Create a new Supplier",
+    "Create a new Customer" : "Create a new Customer",
+    "Show Users": "Show Users"
+}

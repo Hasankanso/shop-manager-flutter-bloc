@@ -1,0 +1,22 @@
+{
+    "fullname": "الاسم الكامل",
+    "email": "البريد الالكتروني",
+    "phone": "رقم الهاتف",
+    "address": "العنوان",
+    "city": "المدينة",
+    "country": "الدولة",
+    "zip": "الرمز البريدي",
+    "card": "رقم البطاقة",
+    "month": "الشهر",
+    "year": "السنة",
+    "cvv": "الرمز السري",
+    "submit": "تأكيد الطلب",
+    "Create Account": "انشاء حساب",
+    "First Name": "الاسم الاول",
+    "Last Name": "اسم العائلة",
+    "Position" : "المنصب",
+    "Create a new User": "اضافة مستخدم جديد",
+    "Create a new Customer" : "اضافة عميل جديد",
+    "Create a new Supplier" : "اضافة مزود جديد",
+    "Show Users" : "عرض المستخدمين"
+}
