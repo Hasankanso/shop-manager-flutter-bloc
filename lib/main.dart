@@ -1,29 +1,33 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:localization/localization.dart';
-import 'package:shop_manager/domain/tables_creator.dart';
-import 'package:shop_manager/repository/MySQLDB.dart';
-import 'package:shop_manager/repository/user_repo.dart';
-import 'package:shop_manager/providers/user_controller.dart';
-import 'package:shop_manager/views/start_menu.dart';
-import 'repository/interfaces/db_interface.dart';
+import 'package:shop_manager/DI/injection.dart';
+import 'package:shop_manager/data/data_infra/tables_creator.dart';
+import 'package:shop_manager/data/users/user_repo.dart';
+import 'package:shop_manager/presentations/start_menu.dart';
+import 'package:shop_manager/presentations/users/blocs/user_controller.dart';
+import 'data/data_infra/interfaces/db_interface.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await DI().initialize();
+
   final config = await rootBundle.loadString("lib/config.json");
   final configJS = jsonDecode(config)["db"];
 
-  DBInterface db = MySQLDB();
+  var db = GetIt.instance.get<DBInterface>();
+
   await db.connect(configJS["host"], configJS["port"], configJS["username"],
       configJS["password"], configJS["name"]);
 
   CreateTables createTables = CreateTables(db: db);
   await createTables.createAll();
+
   runApp(
     BlocProvider(
       create: (_) => UserController(UserRepository(db: db)),
@@ -58,7 +62,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: StartMenu(db: db),
+      home: const StartMenu(),
     );
   }
 }
