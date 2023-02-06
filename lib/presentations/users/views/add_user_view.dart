@@ -44,6 +44,7 @@ class AddUserView extends StatelessWidget {
                       .read<UserController>()
                       .createUser(
                         User(
+                          id: '',
                           firstName: firstNameController.text,
                           lastName: lastNameController.text,
                           position: positionController.text,

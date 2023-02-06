@@ -1,39 +1,40 @@
 import 'package:equatable/equatable.dart';
+import 'package:shop_manager/domain/sell/entities/sell.dart';
 import 'package:shop_manager/domain/users/entities/user.dart';
 import 'package:shop_manager/presentations/tables/states/table_state.dart';
 
-enum UserStatus { initial, loading, loaded, error }
+enum SellPageStatus { initial, loading, loaded, error }
 
 ///states of user modules (get all users create a user etc.)
-class UserState extends TableState implements Equatable {
-  final List<User> users;
-  final User? currentUser;
-  final UserStatus status;
+class SellState extends TableState implements Equatable {
+  final List<Sell> items;
+  final User? currentItem;
+  final SellPageStatus status;
   final String? errorMessage;
   final int usersAbsoluteCount;
 
-  const UserState(
-      {this.currentUser,
+  const SellState(
+      {this.currentItem,
       this.errorMessage,
-      this.users = const [],
+      this.items = const [],
       page = 1,
       pageSize = 10,
-      this.status = UserStatus.initial,
+      this.status = SellPageStatus.initial,
       this.usersAbsoluteCount = 0})
       : super(page: page, pageSize: pageSize);
 
-  UserState copyWith(
-      {User? currentUser,
-      List<User>? users,
+  SellState copyWith(
+      {User? currentItem,
+      List<Sell>? items,
       int? page,
       int? pageSize,
       bool? isLoading,
-      UserStatus? status,
+      SellPageStatus? status,
       String? errorMessage,
       int? usersAbsoluteCount}) {
-    return UserState(
-        currentUser: currentUser ?? this.currentUser,
-        users: users ?? this.users,
+    return SellState(
+        currentItem: currentItem ?? this.currentItem,
+        items: items ?? this.items,
         page: page ?? this.page,
         pageSize: pageSize ?? this.pageSize,
         status: status ?? this.status,
@@ -43,5 +44,5 @@ class UserState extends TableState implements Equatable {
 
   @override
   List<Object?> get props =>
-      [status, currentUser, page, pageSize, errorMessage, ...users];
+      [status, currentItem, page, pageSize, errorMessage, ...items];
 }

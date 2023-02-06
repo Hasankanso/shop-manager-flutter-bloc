@@ -27,7 +27,7 @@ class UserController extends Cubit<Person> {
           position: position));
 
   Future<void> createUser(User user) {
-    user.copyWith(id: const Uuid().v4());
+    user = user.copyWith(id: const Uuid().v4());
     return repo.createUser(user);
   }
 }

@@ -1,17 +1,20 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:localization/localization.dart';
+import 'package:shop_manager/domain/users/repositories/params/get_all_users_params.dart';
 import 'package:shop_manager/domain/users/usecases/create_user_case.dart';
 import 'package:shop_manager/domain/users/usecases/get_all_users_case.dart';
-import 'package:shop_manager/domain/users/usecases/params/get_all_users_params.dart';
 import 'package:shop_manager/presentations/users/blocs/interfaces/user_bloc_interface.dart';
 import 'package:shop_manager/presentations/users/states/users_state.dart';
 
-class UserBloc extends Cubit<UserState> implements UserBlocInterface {
-  CreateUserCase createUserCase;
-  GetAllUsersCase getAllUsersCase;
+class UserBloc extends UserBlocInterface {
+  late final CreateUserCase createUserCase;
+  late final GetAllUsersCase getAllUsersCase;
+  final GetIt di;
 
-  UserBloc(this.createUserCase, this.getAllUsersCase)
-      : super(const UserState(users: []));
+  UserBloc(this.di) : super(const UserState(users: [])) {
+    createUserCase = di.get<CreateUserCase>();
+    getAllUsersCase = di.get<GetAllUsersCase>();
+  }
 
   @override
   bool login(String username, String password) {
@@ -26,10 +29,11 @@ class UserBloc extends Cubit<UserState> implements UserBlocInterface {
     response.fold(
         (l) => emit(state.copyWith(
             status: UserStatus.error, errorMessage: l.message.i18n())),
-        (users) => emit(state.copyWith(
+        (response) => emit(state.copyWith(
             currentUser: state.currentUser,
-            users: users,
-            status: UserStatus.loaded)));
+            users: response.users,
+            status: UserStatus.loaded,
+            usersAbsoluteCount: response.absoluteCount)));
   }
 
   @override

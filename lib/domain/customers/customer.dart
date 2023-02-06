@@ -1,22 +1,40 @@
+import 'package:equatable/equatable.dart';
 import 'package:shop_manager/data/data_infra/utils/jsonizer.dart';
 
-class Customer extends Table {
-  String _id = "";
+class Customer extends Table implements Equatable {
   final String name;
   final String address;
   final String phone;
   final String email;
 
   Customer(
-      {this.name = "", this.address = "", this.phone = "", this.email = ""});
+      {required String id,
+      this.name = "",
+      this.address = "",
+      this.phone = "",
+      this.email = "",
+      bool? isDeleted,
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      DateTime? deletedAt})
+      : super(
+            id: id,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            deletedAt: deletedAt,
+            isDeleted: isDeleted);
 
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
-      name: json['name'],
-      address: json['address'],
-      phone: json['phone'],
-      email: json['email'],
-    );
+        id: json['id'],
+        name: json['name'],
+        address: json['address'],
+        phone: json['phone'],
+        email: json['email'],
+        createdAt: json['createdAt'],
+        updatedAt: json['updatedAt'],
+        deletedAt: json['deletedAt'],
+        isDeleted: json['isDeleted']);
   }
 
   @override
@@ -26,27 +44,27 @@ class Customer extends Table {
 
   @override
   List<Table> fromJsonList(List<Map<String, dynamic>> jsonList) {
-    List<Table> list = [];
-    for (var element in jsonList) {
-      list.add(Customer.fromJson(element));
-    }
-    return list;
-  }
-
-  @override
-  String get id => _id;
-
-  set id(String value) {
-    _id = value;
+    return jsonList.map((e) => fromJson(e)).toList();
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "name": name,
-      "address": address,
-      "phone": phone,
-      "email": email,
+      'id': id,
+      'name': name,
+      'address': address,
+      'phone': phone,
+      'email': email,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'deletedAt': deletedAt,
+      'isDeleted': isDeleted
     };
   }
+
+  @override
+  List<Object?> get props => [id, name, address, phone, email];
+
+  @override
+  bool? get stringify => true;
 }

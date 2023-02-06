@@ -10,12 +10,23 @@ class Supplier extends Table {
   String _id = "";
 
   Supplier(
-      {this.name = "",
+      {required String id,
+      this.name = "",
       this.address = "",
       this.phone = "",
       this.email = "",
       this.website = "",
-      this.description = ""});
+      this.description = "",
+      bool? isDeleted,
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      DateTime? deletedAt})
+      : super(
+            id: id,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            deletedAt: deletedAt,
+            isDeleted: isDeleted);
 
   factory Supplier.fromJson(Map<String, dynamic> json) {
     return Supplier(
@@ -25,6 +36,10 @@ class Supplier extends Table {
       email: json['email'],
       website: json['website'],
       description: json['description'],
+      id: json['id'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+      deletedAt: json['deletedAt'],
     );
   }
 
@@ -35,11 +50,7 @@ class Supplier extends Table {
 
   @override
   List<Table> fromJsonList(List<Map<String, dynamic>> jsonList) {
-    List<Table> list = [];
-    for (final json in jsonList) {
-      list.add(Supplier.fromJson(json));
-    }
-    return list;
+    return jsonList.map((e) => fromJson(e)).toList();
   }
 
   @override

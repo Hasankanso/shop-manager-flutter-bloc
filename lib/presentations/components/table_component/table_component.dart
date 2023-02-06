@@ -19,7 +19,7 @@ class UnifiedTable extends StatelessWidget {
   final PaginatorController controller = PaginatorController();
   @override
   Widget build(BuildContext context) {
-    return PaginatedDataTable(
+    return PaginatedDataTable2(
         initialFirstRowIndex: 0,
         rowsPerPage: rowsPerPage,
         onRowsPerPageChanged: onRowsPerPageChanged,

@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
+import 'package:shop_manager/domain/common_params/params/delete_params.dart';
 import 'package:shop_manager/domain/persons/entities/person.dart';
 import 'package:shop_manager/data/data_infra/interfaces/db_interface.dart';
 import 'package:shop_manager/domain/users/entities/user.dart';
 import 'package:shop_manager/domain/users/repositories/user_repo_interface.dart';
-import 'package:shop_manager/domain/users/usecases/params/get_all_users_params.dart';
+import 'package:shop_manager/domain/users/repositories/params/delete_user_params.dart';
+import 'package:shop_manager/domain/users/repositories/params/get_all_users_params.dart';
+import 'package:shop_manager/domain/users/repositories/params/update_user_params.dart';
 import 'package:shop_manager/domain/utils/request_error.dart';
 
 class UserRepository implements UserRepoInterface {
@@ -13,8 +18,8 @@ class UserRepository implements UserRepoInterface {
 
   @override
   Future<Either<RequestError, User>> getUser(String id) async {
-    List<User> users = await db
-        .select<User>(tableName, "WHERE id= $id LIMIT 1", Person(), {"id": id});
+    List<User> users = await db.select<User>(
+        tableName, "WHERE id= $id LIMIT 1", Person(id: ''), {"id": id});
 
     if (users.isEmpty) {
       return Left(
@@ -25,13 +30,23 @@ class UserRepository implements UserRepoInterface {
   }
 
   @override
-  Future<void> createUser(User user) {
-    return db.insert(tableName, user);
+  Future<Either<RequestError, void>> createUser(User user) async {
+    try {
+      return Right(await db.insert(tableName, user));
+    } catch (e) {
+      return Left(
+          RequestError.fromHttp(message: e.toString(), statusCode: 500));
+    }
   }
 
   @override
-  Future<void> deleteUser(String id) async {
-    return await db.delete(tableName, id);
+  Future<Either<RequestError, void>> deleteUser(DeleteParams args) async {
+    try {
+      return Right(await db.delete(tableName, args.id));
+    } catch (e) {
+      return Left(
+          RequestError.fromHttp(message: e.toString(), statusCode: 500));
+    }
   }
 
   @override
@@ -41,7 +56,7 @@ class UserRepository implements UserRepoInterface {
     var response = await db.select<User>(
         tableName,
         "LIMIT ${args.perPage * 2} OFFSET $page",
-        User(),
+        User(id: ''),
         {"page": args.perPage});
 
     if (response.isEmpty) {
@@ -53,7 +68,23 @@ class UserRepository implements UserRepoInterface {
   }
 
   @override
-  Future<void> updateUser(User user) {
-    return db.update(tableName, user);
+  Future<Either<RequestError, void>> updateUser(UpdateUserParams user) async {
+    try {
+      return Right(await db.update(tableName, user));
+    } catch (e) {
+      return Left(
+          RequestError.fromHttp(message: e.toString(), statusCode: 500));
+    }
+  }
+
+  @override
+  FutureOr<Either<RequestError, int>> getAllUsersCount() async {
+    try {
+      var response = await db.query("SELECT COUNT(*) FROM $tableName");
+      return Right(int.parse(response[0]["COUNT(*)"]));
+    } catch (e) {
+      return Left(
+          RequestError.fromHttp(message: e.toString(), statusCode: 500));
+    }
   }
 }

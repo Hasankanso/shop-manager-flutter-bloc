@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 class GenericDataSource<T> extends DataTableSource {
-  late final List<DataRow> _data;
+  late final List<DataRow>? _data;
+  final int fullLength;
+  final int page;
+  final int rowsPerPage;
 
-  GenericDataSource(List<List<Widget>> widgets) {
+  GenericDataSource(List<List<Widget>> widgets, this.fullLength, this.page,
+      this.rowsPerPage) {
     _data = widgets
         .map((rowWidget) => DataRow(
             cells:
@@ -13,18 +17,20 @@ class GenericDataSource<T> extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-    if (index >= _data.length) {
+    int virtualIndex = index % rowsPerPage;
+
+    if (virtualIndex >= (_data?.length ?? 0)) {
       return null;
     }
 
-    return _data[index];
+    return _data?[virtualIndex];
   }
 
   @override
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => _data.length;
+  int get rowCount => fullLength;
 
   @override
   int get selectedRowCount => 1;

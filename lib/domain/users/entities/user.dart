@@ -1,20 +1,28 @@
 import 'package:equatable/equatable.dart';
 import 'package:shop_manager/data/data_infra/utils/jsonizer.dart';
 
-class User extends Equatable implements Table {
-  @override
-  final String id;
+class User extends Table implements Equatable {
   final String firstName;
   final String lastName;
   final String position;
 
   fullName() => "$firstName $lastName";
 
-  const User(
-      {this.id = "",
-      this.firstName = "",
-      this.lastName = "",
-      this.position = ""});
+  User({
+    required String id,
+    this.firstName = "",
+    this.lastName = "",
+    this.position = "",
+    bool? isDeleted,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+  }) : super(
+            id: id,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            deletedAt: deletedAt,
+            isDeleted: isDeleted);
 
   User copyWith(
       {String? id, String? firstName, String? lastName, String? position}) {
@@ -32,6 +40,10 @@ class User extends Equatable implements Table {
       "firstName": firstName,
       "lastName": lastName,
       "position": position,
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
+      "deletedAt": deletedAt,
+      "isDeleted": isDeleted,
     };
   }
 
@@ -41,7 +53,11 @@ class User extends Equatable implements Table {
         id: json['id'],
         firstName: json['firstName'],
         lastName: json['lastName'],
-        position: json['position']);
+        position: json['position'],
+        createdAt: json['createdAt'],
+        updatedAt: json['updatedAt'],
+        deletedAt: json['deletedAt'],
+        isDeleted: json['isDeleted']);
   }
 
   @override
@@ -51,4 +67,7 @@ class User extends Equatable implements Table {
 
   @override
   List<Object?> get props => [id];
+
+  @override
+  bool? get stringify => true;
 }
