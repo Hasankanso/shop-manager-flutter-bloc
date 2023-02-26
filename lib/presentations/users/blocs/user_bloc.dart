@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:localization/localization.dart';
-import 'package:shop_manager/domain/users/repositories/params/get_all_users_params.dart';
+import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
 import 'package:shop_manager/domain/users/usecases/create_user_case.dart';
 import 'package:shop_manager/domain/users/usecases/get_all_users_case.dart';
 import 'package:shop_manager/presentations/users/blocs/interfaces/user_bloc_interface.dart';
@@ -24,7 +24,7 @@ class UserBloc extends UserBlocInterface {
   @override
   void getUsers() async {
     var response = await getAllUsersCase
-        .execute(GetAllUsersParams(page: 1, pageSize: state.pageSize));
+        .execute(GetAllParams(page: 1, pageSize: state.pageSize));
 
     response.fold(
         (l) => emit(state.copyWith(

@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:shop_manager/domain/common_params/params/delete_params.dart';
+import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
 import 'package:shop_manager/domain/persons/entities/person.dart';
 import 'package:shop_manager/data/data_infra/interfaces/db_interface.dart';
 import 'package:shop_manager/domain/users/entities/user.dart';
 import 'package:shop_manager/domain/users/repositories/user_repo_interface.dart';
-import 'package:shop_manager/domain/users/repositories/params/delete_user_params.dart';
-import 'package:shop_manager/domain/users/repositories/params/get_all_users_params.dart';
 import 'package:shop_manager/domain/users/repositories/params/update_user_params.dart';
 import 'package:shop_manager/domain/utils/request_error.dart';
 
@@ -50,8 +49,7 @@ class UserRepository implements UserRepoInterface {
   }
 
   @override
-  Future<Either<RequestError, List<User>>> getUsers(
-      GetAllUsersParams args) async {
+  Future<Either<RequestError, List<User>>> getUsers(GetAllParams args) async {
     int page = (args.page - 1) * args.perPage;
     var response = await db.select<User>(
         tableName,

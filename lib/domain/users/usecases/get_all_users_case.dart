@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
 import 'package:shop_manager/domain/users/entities/user.dart';
 import 'package:shop_manager/domain/users/repositories/user_repo_interface.dart';
-import 'package:shop_manager/domain/users/repositories/params/get_all_users_params.dart';
 import 'package:shop_manager/domain/utils/request_error.dart';
 import 'package:use_case/use_case.dart';
 
@@ -15,7 +15,7 @@ class GetAllUsersCase
 
   @override
   FutureOr<Either<RequestError, GetAllUsersResponse>> execute(
-      GetAllUsersParams args) async {
+      GetAllParams args) async {
     List<User> users = [];
     int absoluteCount = 0;
     Left<RequestError, GetAllUsersResponse>? error;

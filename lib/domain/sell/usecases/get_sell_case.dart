@@ -20,7 +20,7 @@ class GetAllSellCase
     int absoluteCount = 0;
     Left<RequestError, GetAllResponse<Sell>>? error;
 
-    (await repo.getAll(args))
+    (await repo.getAllSales(args))
         .fold((RequestError l) => error = Left(l), (r) => items = r);
     (await repo.getAllCount())
         .fold((RequestError l) => error = Left(l), (r) => absoluteCount = r);

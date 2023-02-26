@@ -5,13 +5,24 @@ class GenericDataSource<T> extends DataTableSource {
   final int fullLength;
   final int page;
   final int rowsPerPage;
+  final Function(int index, bool selected)? onSelectChanged;
+  final int? selectedIndex;
 
-  GenericDataSource(List<List<Widget>> widgets, this.fullLength, this.page,
-      this.rowsPerPage) {
+  GenericDataSource(
+      List<List<Widget>> widgets, this.fullLength, this.page, this.rowsPerPage,
+      {this.onSelectChanged, this.selectedIndex}) {
     _data = widgets
-        .map((rowWidget) => DataRow(
+        .asMap()
+        .entries
+        .map((entry) => DataRow(
+            onSelectChanged: (value) {
+              if (onSelectChanged != null) {
+                onSelectChanged!(entry.key, value ?? true);
+              }
+            },
+            selected: (selectedIndex ?? -1) == entry.key,
             cells:
-                rowWidget.map((cellWidget) => DataCell(cellWidget)).toList()))
+                entry.value.map((cellWidget) => DataCell(cellWidget)).toList()))
         .toList();
   }
 

@@ -10,7 +10,7 @@ class UpdateSellCase extends UseCase<void> {
 
   @override
   FutureOr<void> execute(covariant Object? args) async {
-    await repo.update(args as UpdateSellParams);
+    await repo.updateSale(args as UpdateSellParams);
   }
 
   @override

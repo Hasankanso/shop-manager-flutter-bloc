@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localization/localization.dart';
 import 'package:shop_manager/domain/users/entities/user.dart';
-import 'package:shop_manager/presentations/users/blocs/user_controller.dart';
+import 'package:shop_manager/presentations/auth/auth_bloc.dart';
 
 class AddUserView extends StatelessWidget {
   AddUserView({super.key});
@@ -41,7 +41,7 @@ class AddUserView extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   context
-                      .read<UserController>()
+                      .read<AuthBloc>()
                       .createUser(
                         User(
                           id: '',

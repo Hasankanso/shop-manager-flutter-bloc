@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:localization/localization.dart';
 import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
-import 'package:shop_manager/domain/sell/usecases/create_sell_case.dart';
 import 'package:shop_manager/domain/sell/usecases/delete_sell_case.dart';
 import 'package:shop_manager/domain/sell/usecases/get_sell_case.dart';
 import 'package:shop_manager/domain/sell/usecases/update_sell_case.dart';
@@ -9,7 +8,6 @@ import 'package:shop_manager/presentations/sell/blocs/interfaces/sell_bloc_inter
 import 'package:shop_manager/presentations/sell/states/sell_state.dart';
 
 class SellBloc extends SellBlocInterface {
-  late final CreateSellCase createSellCase;
   late final GetAllSellCase getAllSellCase;
   late final UpdateSellCase updateSellCase;
   late final DeleteSellCase deleteSellCase;
@@ -17,7 +15,6 @@ class SellBloc extends SellBlocInterface {
   final GetIt di;
 
   SellBloc(this.di) : super(const SellState(items: [])) {
-    createSellCase = di.get<CreateSellCase>();
     getAllSellCase = di.get<GetAllSellCase>();
     updateSellCase = di.get<UpdateSellCase>();
     deleteSellCase = di.get<DeleteSellCase>();

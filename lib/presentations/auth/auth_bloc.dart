@@ -4,10 +4,10 @@ import 'package:shop_manager/domain/users/entities/user.dart';
 import 'package:shop_manager/domain/users/repositories/user_repo_interface.dart';
 import 'package:uuid/uuid.dart';
 
-class UserController extends Cubit<Person> {
+class AuthBloc extends Cubit<Person?> {
   UserRepoInterface repo;
 
-  UserController(this.repo)
+  AuthBloc(this.repo)
       : super(Person(
             id: "id",
             firstName: "FirstName",

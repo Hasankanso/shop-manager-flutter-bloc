@@ -66,10 +66,21 @@ class MySQLDB implements DBInterface {
     Map<String, dynamic> dataMap = data.toJson();
     String query = "UPDATE $table SET ";
     for (var key in dataMap.keys) {
-      query += "$key = '${dataMap[key]}',";
+      dynamic value = dataMap[key];
+      if (value != null && key != "id") {
+        if (value.toString() == "true") {
+          value = "1";
+        } else if (value.toString() == "false") {
+          value = "0";
+        }
+        query += "$key = '$value', ";
+      }
     }
-    query = query.substring(0, query.length - 1);
-    query += " WHERE id = ${data.id}";
+    query = query.substring(0, query.length - 2);
+    query += " WHERE id = '${data.id}'";
+    print(query);
+
+    //dbConnection.execute(" UPDATE $TABLE_NAME SET name = 'new name' WHERE id = 1" ");
     return dbConnection.execute(query);
   }
 }

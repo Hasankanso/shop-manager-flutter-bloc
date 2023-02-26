@@ -9,7 +9,7 @@ import 'package:shop_manager/DI/injection.dart';
 import 'package:shop_manager/data/data_infra/tables_creator.dart';
 import 'package:shop_manager/data/users/user_repo.dart';
 import 'package:shop_manager/presentations/start_menu.dart';
-import 'package:shop_manager/presentations/users/blocs/user_controller.dart';
+import 'package:shop_manager/presentations/auth/auth_bloc.dart';
 import 'data/data_infra/interfaces/db_interface.dart';
 
 void main() async {
@@ -30,7 +30,7 @@ void main() async {
 
   runApp(
     BlocProvider(
-      create: (_) => UserController(UserRepository(db: db)),
+      create: (_) => AuthBloc(UserRepository(db: db)),
       child: MyApp(db),
     ),
   );

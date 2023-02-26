@@ -3,10 +3,10 @@ import 'package:shop_manager/data/data_infra/utils/jsonizer.dart';
 
 class Sell extends Table implements Equatable {
   final String? productId;
-  final String? productCost;
-  final String? productPrice;
+  final double? productCost;
+  final double? productPrice;
   final int? productQuantity;
-  final String? productDiscount;
+  final double? productDiscount;
   final String? customerId;
   final String? userId;
 
@@ -35,10 +35,10 @@ class Sell extends Table implements Equatable {
     return Sell(
       id: json['id'],
       productId: json['productId'],
-      productCost: json['productCost'],
-      productPrice: json['productPrice'],
+      productCost: double.parse(json['productCost']),
+      productPrice: double.parse(json['productPrice']),
       productQuantity: int.parse(json['productQuantity']),
-      productDiscount: json['productDiscount'],
+      productDiscount: double.parse(json['productDiscount']),
       customerId: json['customerId'],
       userId: json['userId'],
     );

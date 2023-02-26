@@ -25,25 +25,28 @@ class ShowSellList extends StatelessWidget {
         break;
       case SellPageStatus.loaded:
         if (state.items.isEmpty) {
-          return Center(child: Text('No items found'.i18n()));
-        }
-        final List<Widget> columnWidgets = state.items[0]
-            .toJson()
-            .keys
-            .map((key) => Text(key.i18n()))
-            .toList();
+          body = Center(child: Text('No items found'.i18n()));
+        } else {
+          final List<Widget> columnWidgets = state.items[0]
+              .toJson()
+              .keys
+              .map((key) => Text(key.i18n()))
+              .toList();
 
-        body = UnifiedTable(
-          columnWidgets: columnWidgets,
-          rowSource: GenericDataSource(
-              state.items.map((item) => SellRow(item).getRowWidgets()).toList(),
-              state.usersAbsoluteCount,
-              state.page,
-              state.pageSize),
-          onPageChanged: sellsController.setPage,
-          rowsPerPage: sellsController.state.pageSize,
-          onRowsPerPageChanged: sellsController.setPageSize,
-        );
+          body = UnifiedTable(
+            columnWidgets: columnWidgets,
+            rowSource: GenericDataSource(
+                state.items
+                    .map((item) => SellRow(item).getRowWidgets())
+                    .toList(),
+                state.usersAbsoluteCount,
+                state.page,
+                state.pageSize),
+            onPageChanged: sellsController.setPage,
+            rowsPerPage: sellsController.state.pageSize,
+            onRowsPerPageChanged: sellsController.setPageSize,
+          );
+        }
         break;
       case SellPageStatus.error:
         body = Center(child: Text('Error'.i18n()));
