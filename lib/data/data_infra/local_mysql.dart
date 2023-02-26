@@ -78,9 +78,7 @@ class MySQLDB implements DBInterface {
     }
     query = query.substring(0, query.length - 2);
     query += " WHERE id = '${data.id}'";
-    print(query);
 
-    //dbConnection.execute(" UPDATE $TABLE_NAME SET name = 'new name' WHERE id = 1" ");
     return dbConnection.execute(query);
   }
 }

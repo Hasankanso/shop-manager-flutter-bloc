@@ -26,15 +26,16 @@ class Customer extends Table implements Equatable {
 
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
-        id: json['id'],
-        name: json['name'],
-        address: json['address'],
-        phone: json['phone'],
-        email: json['email'],
-        createdAt: json['createdAt'],
-        updatedAt: json['updatedAt'],
-        deletedAt: json['deletedAt'],
-        isDeleted: json['isDeleted']);
+      id: json['id'],
+      name: json['name'],
+      address: json['address'],
+      phone: json['phone'],
+      email: json['email'],
+      isDeleted: json['isDeleted'] == 1,
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
+    );
   }
 
   @override
@@ -50,15 +51,11 @@ class Customer extends Table implements Equatable {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
       'address': address,
       'phone': phone,
       'email': email,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'deletedAt': deletedAt,
-      'isDeleted': isDeleted
+      ...super.toJson(),
     };
   }
 

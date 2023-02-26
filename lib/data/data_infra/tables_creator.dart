@@ -10,7 +10,11 @@ class CreateTables {
         "id VARCHAR(255) PRIMARY KEY,"
         "firstName VARCHAR(255),"
         "lastName VARCHAR(255),"
-        "position VARCHAR(255)"
+        "position VARCHAR(255),"
+        "isDeleted BOOLEAN DEFAULT 1,"
+        "createdAt DATETIME DEFAULT NOW(),"
+        "deletedAt DATETIME,"
+        "updatedAt DATETIME"
         ")");
 
     await db.query("CREATE TABLE IF NOT EXISTS products ("
@@ -22,7 +26,10 @@ class CreateTables {
         "quantity INT,"
         "description VARCHAR(255),"
         "image VARCHAR(255),"
-        "isDeleted BOOLEAN"
+        "isDeleted BOOLEAN DEFAULT 0,"
+        "createdAt DATETIME DEFAULT NOW(),"
+        "deletedAt DATETIME,"
+        "updatedAt DATETIME"
         ")");
 
     await db.query("CREATE TABLE IF NOT EXISTS customers ("
@@ -31,17 +38,26 @@ class CreateTables {
         "lastName VARCHAR(255),"
         "phone VARCHAR(255),"
         "email VARCHAR(255),"
-        "address VARCHAR(255)"
+        "address VARCHAR(255),"
+        "isDeleted BOOLEAN DEFAULT 0,"
+        "createdAt DATETIME DEFAULT NOW(),"
+        "deletedAt DATETIME,"
+        "updatedAt DATETIME"
         ")");
+
     await db.query("CREATE TABLE IF NOT EXISTS suppliers ("
         "id VARCHAR(255) PRIMARY KEY,"
         "name VARCHAR(255),"
         "phone VARCHAR(255),"
         "email VARCHAR(255),"
-        "address VARCHAR(255)"
+        "address VARCHAR(255),"
+        "isDeleted BOOLEAN DEFAULT 0,"
+        "createdAt DATETIME DEFAULT NOW(),"
+        "deletedAt DATETIME,"
+        "updatedAt DATETIME"
         ")");
 
-    await db.query("CREATE TABLE IF NOT EXISTS sells ("
+    await db.query("CREATE TABLE IF NOT EXISTS sales ("
         "id VARCHAR(255) PRIMARY KEY,"
         "productId VARCHAR(255),"
         "productCost VARCHAR(255),"
@@ -50,7 +66,10 @@ class CreateTables {
         "productDiscount VARCHAR(255),"
         "customerId VARCHAR(255),"
         "userId VARCHAR(255),"
-        "isDeleted BOOLEAN"
+        "isDeleted BOOLEAN DEFAULT 0,"
+        "createdAt DATETIME DEFAULT NOW(),"
+        "deletedAt DATETIME,"
+        "updatedAt DATETIME"
         ")");
 
     // try {

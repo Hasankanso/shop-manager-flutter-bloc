@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:shop_manager/domain/sell/entities/sell.dart';
+import 'package:shop_manager/domain/sales/entities/sale.dart';
 
-class SellRow {
-  final Sell item;
+class SaleRow {
+  final Sale item;
   late final List<Widget> rowWidgets;
 
-  SellRow(this.item) {
+  SaleRow(this.item) {
     rowWidgets =
         item.toJson().values.map((value) => Text(value.toString())).toList();
   }

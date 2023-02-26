@@ -1,6 +1,6 @@
 import 'package:shop_manager/data/data_infra/utils/jsonizer.dart';
 
-class UpdateSellParams extends Table {
+class UpdateSaleParams extends Table {
   final String? productId;
   final String? productCost;
   final String? productPrice;
@@ -9,7 +9,7 @@ class UpdateSellParams extends Table {
   final String? customerId;
   final String? userId;
 
-  UpdateSellParams(
+  UpdateSaleParams(
       {required String id,
       this.productId,
       this.productCost,
@@ -31,7 +31,7 @@ class UpdateSellParams extends Table {
 
   @override
   Table fromJson(Map<String, dynamic> json) {
-    return UpdateSellParams(
+    return UpdateSaleParams(
       id: json['id'],
       productId: json['productId'],
       productCost: json['productCost'],

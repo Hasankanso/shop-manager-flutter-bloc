@@ -40,6 +40,10 @@ class Buy extends Table {
       productDiscount: json['productDiscount'],
       supplierId: json['supplierId'],
       userId: json['userId'],
+      isDeleted: json['isDeleted'] == 1,
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
     );
   }
 
@@ -51,7 +55,6 @@ class Buy extends Table {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'productId': productId,
       'productCost': productCost,
       'productPrice': productPrice,
@@ -59,6 +62,7 @@ class Buy extends Table {
       'productDiscount': productDiscount,
       'supplierId': supplierId,
       'userId': userId,
+      ...super.toJson(),
     };
   }
 }

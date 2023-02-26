@@ -37,9 +37,10 @@ class Supplier extends Table {
       website: json['website'],
       description: json['description'],
       id: json['id'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      deletedAt: json['deletedAt'],
+      isDeleted: json['isDeleted'] == 1,
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
     );
   }
 
@@ -69,6 +70,7 @@ class Supplier extends Table {
       'email': email,
       'website': website,
       'description': description,
+      ...super.toJson(),
     };
   }
 }

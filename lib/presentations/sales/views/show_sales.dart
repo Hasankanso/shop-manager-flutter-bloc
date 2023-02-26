@@ -3,27 +3,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localization/localization.dart';
 import 'package:shop_manager/presentations/components/table_component/generic_data_source.dart';
 import 'package:shop_manager/presentations/components/table_component/table_component.dart';
-import 'package:shop_manager/presentations/sell/components/sell_row.dart';
-import 'package:shop_manager/presentations/sell/blocs/sell_bloc.dart';
-import 'package:shop_manager/presentations/sell/states/sell_state.dart';
+import 'package:shop_manager/presentations/sales/components/sale_row.dart';
+import 'package:shop_manager/presentations/sales/blocs/sale_bloc.dart';
+import 'package:shop_manager/presentations/sales/states/sale_state.dart';
 
-class ShowSellList extends StatelessWidget {
-  const ShowSellList({super.key});
+class ShowSaleList extends StatelessWidget {
+  const ShowSaleList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var sellsController = context.watch<SellBloc>();
-    var state = sellsController.state;
+    var salesController = context.watch<SaleBloc>();
+    var state = salesController.state;
 
     final Widget body;
-    switch (sellsController.state.status) {
-      case SellPageStatus.initial:
-        body = Center(child: Text('No users found'.i18n()));
+    switch (salesController.state.status) {
+      case SalesPageStatus.initial:
+        body = Center(child: Text('initializing...'.i18n()));
         break;
-      case SellPageStatus.loading:
+      case SalesPageStatus.loading:
         body = const Center(child: CircularProgressIndicator());
         break;
-      case SellPageStatus.loaded:
+      case SalesPageStatus.loaded:
         if (state.items.isEmpty) {
           body = Center(child: Text('No items found'.i18n()));
         } else {
@@ -37,18 +37,18 @@ class ShowSellList extends StatelessWidget {
             columnWidgets: columnWidgets,
             rowSource: GenericDataSource(
                 state.items
-                    .map((item) => SellRow(item).getRowWidgets())
+                    .map((item) => SaleRow(item).getRowWidgets())
                     .toList(),
                 state.usersAbsoluteCount,
                 state.page,
                 state.pageSize),
-            onPageChanged: sellsController.setPage,
-            rowsPerPage: sellsController.state.pageSize,
-            onRowsPerPageChanged: sellsController.setPageSize,
+            onPageChanged: salesController.setPage,
+            rowsPerPage: salesController.state.pageSize,
+            onRowsPerPageChanged: salesController.setPageSize,
           );
         }
         break;
-      case SellPageStatus.error:
+      case SalesPageStatus.error:
         body = Center(child: Text('Error'.i18n()));
         break;
       default:

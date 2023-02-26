@@ -27,27 +27,25 @@ class Person extends Table implements Equatable {
   @override
   toJson() {
     return {
-      "id": id,
       "firstName": firstName,
       "lastName": lastName,
       "position": position,
-      "createdAt": createdAt,
-      "updatedAt": updatedAt,
-      "deletedAt": deletedAt,
+      ...super.toJson(),
     };
   }
 
   @override
   Table fromJson(Map<String, dynamic> json) {
     return Person(
-        id: json['id'],
-        firstName: json['firstName'],
-        lastName: json['lastName'],
-        position: json['position'],
-        createdAt: json['createdAt'],
-        updatedAt: json['updatedAt'],
-        deletedAt: json['deletedAt'],
-        isDeleted: json['isDeleted']);
+      id: json['id'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      position: json['position'],
+      isDeleted: json['isDeleted'] == 1,
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
+    );
   }
 
   @override

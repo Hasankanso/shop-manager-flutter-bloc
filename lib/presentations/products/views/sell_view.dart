@@ -34,6 +34,13 @@ class SellProductView extends StatelessWidget {
                 if (parsed == null) {
                   return "Quantity must be a number".i18n();
                 }
+                if (parsed > product.quantity) {
+                  return "Required Quantity is not available".i18n() +
+                      " ${product.quantity}".i18n();
+                }
+                if (parsed <= 0) {
+                  return "Quantity must be greater than zero".i18n();
+                }
                 return null;
               },
               controller: quantityController,
@@ -56,10 +63,40 @@ class SellProductView extends StatelessWidget {
                 if (!key.currentState!.validate()) {
                   return;
                 }
-                await context.read<ProductBloc>().sellProduct(
-                    product,
-                    int.parse(quantityController.text),
-                    double.parse(priceController.text));
+
+                double price = double.parse(priceController.text);
+                int quantity = int.parse(quantityController.text);
+
+                if (price < product.cost) {
+                  showDialog(
+                      context: context,
+                      builder: ((dialogContext) {
+                        return AlertDialog(
+                          title: Text(
+                              "Warning! You're not making profit with this action, are you sure? the losses"
+                                      .i18n() +
+                                  ": ${product.cost - price}".i18n()),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(dialogContext).pop();
+                              },
+                              child: Text("No".i18n()),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                Navigator.of(dialogContext).pop();
+                                await context
+                                    .read<ProductBloc>()
+                                    .sellProduct(product, quantity, price);
+                              },
+                              child: Text("Yes".i18n()),
+                            ),
+                          ],
+                        );
+                      }));
+                  return;
+                }
               },
               child: Text("Sell".i18n()),
             )

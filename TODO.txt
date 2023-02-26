@@ -1,10 +1,8 @@
-- add createdAt and updatedAt, deletedAt fields to the tables (make sure they are correctly populated)
-- translate all words
-- don't let user sell with negative quantity
-- warn user when he sells with no profit
-
 - add a search bar to the products list
 - implement authentication/user creation
 - display name of product/user instead of id in the tableViews
 - create a sell product page
 - create a restock page
+- edit product
+- delete product
+- restock button

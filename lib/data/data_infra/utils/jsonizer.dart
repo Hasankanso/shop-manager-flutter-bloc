@@ -13,7 +13,28 @@ abstract class Table {
     this.isDeleted,
   });
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {
+      'id': id,
+      'createdAt': createdAt,
+      'isDeleted': isDeleted ?? false ? 1 : 0,
+    };
+
+    if (createdAt == null) {
+      json['createdAt'] = DateTime.now();
+    }
+
+    if (updatedAt != null) {
+      json['updatedAt'] = updatedAt;
+    }
+
+    if (deletedAt != null) {
+      json['deletedAt'] = deletedAt;
+    }
+
+    return json;
+  }
+
   Table fromJson(Map<String, dynamic> json);
   List<Table> fromJsonList(List<Map<String, dynamic>> jsonList);
 }

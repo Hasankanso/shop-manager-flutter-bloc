@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:shop_manager/domain/common_params/params/delete_params.dart';
-import 'package:shop_manager/domain/sell/repositories/sell_repo_interface.dart';
+import 'package:shop_manager/domain/sales/repositories/sale_repo_interface.dart';
 import 'package:use_case/use_case.dart';
 
-class DeleteSellCase extends UseCase<void> {
-  final SellRepositoryInterface repository;
+class DeleteSaleCase extends UseCase<void> {
+  final SaleRepositoryInterface repository;
 
-  DeleteSellCase(this.repository);
+  DeleteSaleCase(this.repository);
 
   @override
-  String get id => 'DeleteSellCase';
+  String get id => 'DeleteSaleCase';
 
   @override
   FutureOr<void> execute(covariant Object? args) {

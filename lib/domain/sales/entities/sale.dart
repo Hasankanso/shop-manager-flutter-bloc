@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:shop_manager/data/data_infra/utils/jsonizer.dart';
 
-class Sell extends Table implements Equatable {
+class Sale extends Table implements Equatable {
   final String? productId;
   final double? productCost;
   final double? productPrice;
@@ -10,7 +10,7 @@ class Sell extends Table implements Equatable {
   final String? customerId;
   final String? userId;
 
-  Sell(
+  Sale(
       {required String id,
       this.productId,
       this.productCost,
@@ -32,7 +32,9 @@ class Sell extends Table implements Equatable {
 
   @override
   Table fromJson(Map<String, dynamic> json) {
-    return Sell(
+    print(json);
+
+    return Sale(
       id: json['id'],
       productId: json['productId'],
       productCost: double.parse(json['productCost']),
@@ -41,6 +43,10 @@ class Sell extends Table implements Equatable {
       productDiscount: double.parse(json['productDiscount']),
       customerId: json['customerId'],
       userId: json['userId'],
+      isDeleted: json['isDeleted'] == 1,
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
     );
   }
 
@@ -51,8 +57,7 @@ class Sell extends Table implements Equatable {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
+    Map<String, dynamic> json = {
       'productId': productId,
       'productCost': productCost,
       'productPrice': productPrice,
@@ -60,7 +65,10 @@ class Sell extends Table implements Equatable {
       'productDiscount': productDiscount,
       'customerId': customerId,
       'userId': userId,
+      ...super.toJson(),
     };
+
+    return json;
   }
 
   @override

@@ -36,28 +36,25 @@ class User extends Table implements Equatable {
   @override
   toJson() {
     return {
-      "id": id,
       "firstName": firstName,
       "lastName": lastName,
       "position": position,
-      "createdAt": createdAt,
-      "updatedAt": updatedAt,
-      "deletedAt": deletedAt,
-      "isDeleted": isDeleted,
+      ...super.toJson(),
     };
   }
 
   @override
   Table fromJson(Map<String, dynamic> json) {
     return User(
-        id: json['id'],
-        firstName: json['firstName'],
-        lastName: json['lastName'],
-        position: json['position'],
-        createdAt: json['createdAt'],
-        updatedAt: json['updatedAt'],
-        deletedAt: json['deletedAt'],
-        isDeleted: json['isDeleted']);
+      id: json['id'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      position: json['position'],
+      isDeleted: json['isDeleted'],
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
+    );
   }
 
   @override

@@ -30,11 +30,8 @@ class ShowProductList extends StatelessWidget {
         if (state.products.isEmpty) {
           body = Center(child: Text('No products found'.i18n()));
         } else {
-          final List<Widget> columnWidgets = state.products[0]
-              .toJson()
-              .keys
-              .map((key) => Text(key.i18n()))
-              .toList();
+          final List<Widget> columnWidgets =
+              Product.getColumns().map((key) => Text(key.i18n())).toList();
 
           body = UnifiedTable(
             columnWidgets: columnWidgets,
