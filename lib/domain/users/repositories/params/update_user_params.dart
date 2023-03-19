@@ -12,7 +12,6 @@ class UpdateUserParams extends Table {
     this.email,
     this.password,
     this.role,
-    bool? isDeleted = false,
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,
@@ -21,7 +20,6 @@ class UpdateUserParams extends Table {
           createdAt: createdAt,
           updatedAt: updatedAt,
           deletedAt: deletedAt,
-          isDeleted: isDeleted,
         );
 
   @override
@@ -35,7 +33,6 @@ class UpdateUserParams extends Table {
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       deletedAt: json['deletedAt'],
-      isDeleted: json['isDeleted'],
     );
   }
 
@@ -55,7 +52,6 @@ class UpdateUserParams extends Table {
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'deletedAt': deletedAt,
-      'isDeleted': isDeleted,
     };
   }
 }

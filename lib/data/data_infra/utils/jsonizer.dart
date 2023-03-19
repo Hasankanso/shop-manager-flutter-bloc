@@ -3,21 +3,18 @@ abstract class Table {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final DateTime? deletedAt;
-  final bool? isDeleted;
 
   Table({
     required this.id,
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.isDeleted,
   });
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {
       'id': id,
       'createdAt': createdAt,
-      'isDeleted': isDeleted ?? false ? 1 : 0,
     };
 
     if (createdAt == null) {

@@ -17,7 +17,6 @@ class Supplier extends Table {
       this.email = "",
       this.website = "",
       this.description = "",
-      bool? isDeleted,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? deletedAt})
@@ -25,8 +24,7 @@ class Supplier extends Table {
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   factory Supplier.fromJson(Map<String, dynamic> json) {
     return Supplier(
@@ -37,7 +35,6 @@ class Supplier extends Table {
       website: json['website'],
       description: json['description'],
       id: json['id'],
-      isDeleted: json['isDeleted'] == 1,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
       deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),

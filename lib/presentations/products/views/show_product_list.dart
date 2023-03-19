@@ -67,6 +67,18 @@ class ShowProductList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Column(children: [
+        Expanded(
+          flex: 1,
+          child: TextFormField(
+            decoration: InputDecoration(
+              hintText: 'Search'.i18n(),
+              prefixIcon: const Icon(Icons.search),
+            ),
+            onChanged: (value) {
+              productsController.searchProduct(value);
+            },
+          ),
+        ),
         Expanded(flex: 7, child: body),
         Expanded(
           child: Row(

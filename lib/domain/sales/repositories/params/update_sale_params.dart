@@ -18,7 +18,6 @@ class UpdateSaleParams extends Table {
       this.productDiscount,
       this.customerId,
       this.userId,
-      bool? isDeleted = false,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? deletedAt})
@@ -26,8 +25,7 @@ class UpdateSaleParams extends Table {
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   @override
   Table fromJson(Map<String, dynamic> json) {

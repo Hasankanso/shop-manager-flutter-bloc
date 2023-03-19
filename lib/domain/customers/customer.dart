@@ -13,7 +13,6 @@ class Customer extends Table implements Equatable {
       this.address = "",
       this.phone = "",
       this.email = "",
-      bool? isDeleted,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? deletedAt})
@@ -21,8 +20,7 @@ class Customer extends Table implements Equatable {
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
@@ -31,7 +29,6 @@ class Customer extends Table implements Equatable {
       address: json['address'],
       phone: json['phone'],
       email: json['email'],
-      isDeleted: json['isDeleted'] == 1,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
       deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),

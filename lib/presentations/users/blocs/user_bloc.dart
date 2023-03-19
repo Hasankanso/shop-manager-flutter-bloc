@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:localization/localization.dart';
 import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
+import 'package:shop_manager/domain/users/entities/user.dart';
 import 'package:shop_manager/domain/users/usecases/create_user_case.dart';
 import 'package:shop_manager/domain/users/usecases/get_all_users_case.dart';
 import 'package:shop_manager/presentations/users/blocs/interfaces/user_bloc_interface.dart';
@@ -17,12 +18,7 @@ class UserBloc extends UserBlocInterface {
   }
 
   @override
-  bool login(String username, String password) {
-    return false;
-  }
-
-  @override
-  void getUsers() async {
+  Future<void> getUsers() async {
     var response = await getAllUsersCase
         .execute(GetAllParams(page: 1, pageSize: state.pageSize));
 
@@ -34,6 +30,18 @@ class UserBloc extends UserBlocInterface {
             users: response.users,
             status: UserStatus.loaded,
             usersAbsoluteCount: response.absoluteCount)));
+  }
+
+  @override
+  Future<void> createUser(User user) async {
+    (await createUserCase.execute({"user": user})).fold(
+        (l) => emit(state.copyWith(
+            status: UserStatus.error, errorMessage: l.message.i18n())),
+        (r) => emit(state.copyWith(
+            currentUser: state.currentUser,
+            users: state.users,
+            status: UserStatus.loaded,
+            usersAbsoluteCount: state.usersAbsoluteCount)));
   }
 
   @override

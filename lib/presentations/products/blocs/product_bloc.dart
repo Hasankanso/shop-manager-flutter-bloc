@@ -7,7 +7,7 @@ import 'package:shop_manager/domain/products/usecases/get_all.dart';
 import 'package:shop_manager/domain/products/usecases/sell.dart';
 import 'package:shop_manager/presentations/products/blocs/interface.dart';
 import 'package:shop_manager/presentations/products/states/state.dart';
-import 'package:shop_manager/presentations/auth/auth_bloc.dart';
+import 'package:shop_manager/presentations/auth/blocs/auth_bloc.dart';
 
 class ProductBloc extends ProductBlocInterface {
   late final CreateProductCase createProductCase;
@@ -89,8 +89,20 @@ class ProductBloc extends ProductBlocInterface {
   }
 
   @override
-  Future<void> searchProduct(String query) async {
-    // TODO: implement searchProduct
+  Future<void> searchProduct(String searchString) async {
+    var response = await getAllProductsCase.execute(GetAllParams(
+        page: 1,
+        pageSize: state.pageSize,
+        containsFilter: {"name": searchString, "description": searchString}));
+
+    response.fold(
+        (l) => emit(state.copyWith(
+            status: PageStatus.error, errorMessage: l.message.i18n())),
+        (response) => emit(state.copyWith(
+            currentProduct: state.currentProduct,
+            products: response.users,
+            status: PageStatus.loaded,
+            productsAbsoluteCount: response.absoluteCount)));
   }
 
   @override
@@ -109,7 +121,7 @@ class ProductBloc extends ProductBlocInterface {
       "product": p,
       "quantity": quantity,
       "price": price,
-      "user": authController.state
+      "user": authController.state.loggedUser,
     });
 
     response.fold(

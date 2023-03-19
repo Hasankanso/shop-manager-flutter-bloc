@@ -5,9 +5,12 @@ abstract class DBInterface {
       String databaseName);
   Future<void> close();
 
+  Future<List<Map<String, dynamic>>> rawQuery(
+      String query, Map<String, dynamic>? args);
   Future<List<Map<String, dynamic>>> query(String query);
   Future<List<T>> select<T>(
-      String table, String query, Table builder, Map<String, dynamic>? args);
+      String table, String query, Table builder, Map<String, dynamic>? args,
+      {String columnNames});
 
   Future<void> insert(String table, Table data);
   Future<void> update(String table, Table data);

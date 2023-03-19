@@ -9,25 +9,23 @@ class Buy extends Table {
   final String? supplierId;
   final String? userId;
 
-  Buy({
-    required String id,
-    this.productId,
-    this.productCost,
-    this.productPrice,
-    this.productQuantity,
-    this.productDiscount,
-    this.supplierId,
-    this.userId,
-    createdAt,
-    updatedAt,
-    deletedAt,
-    isDeleted = false,
-  }) : super(
+  Buy(
+      {required String id,
+      this.productId,
+      this.productCost,
+      this.productPrice,
+      this.productQuantity,
+      this.productDiscount,
+      this.supplierId,
+      this.userId,
+      createdAt,
+      updatedAt,
+      deletedAt})
+      : super(
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   @override
   Table fromJson(Map<String, dynamic> json) {
@@ -40,7 +38,6 @@ class Buy extends Table {
       productDiscount: json['productDiscount'],
       supplierId: json['supplierId'],
       userId: json['userId'],
-      isDeleted: json['isDeleted'] == 1,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
       deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),

@@ -6,11 +6,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:localization/localization.dart';
 import 'package:shop_manager/DI/injection.dart';
+import 'package:shop_manager/data/data_infra/interfaces/db_interface.dart';
 import 'package:shop_manager/data/data_infra/tables_creator.dart';
-import 'package:shop_manager/data/users/user_repo.dart';
+import 'package:shop_manager/domain/app_settings/app_settings_interface.dart';
+import 'package:shop_manager/presentations/app_settings/blocs/bloc.dart';
+import 'package:shop_manager/presentations/app_settings/states/app_setting_state.dart';
 import 'package:shop_manager/presentations/start_menu.dart';
-import 'package:shop_manager/presentations/auth/auth_bloc.dart';
-import 'data/data_infra/interfaces/db_interface.dart';
+import 'package:shop_manager/presentations/auth/blocs/auth_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +31,18 @@ void main() async {
   await createTables.createAll();
 
   runApp(
-    BlocProvider(
-      create: (_) => AuthBloc(UserRepository(db: db)),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AppSettingBloc>(
+          create: (BuildContext context) =>
+              AppSettingBloc(GetIt.instance)..initialize(),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) =>
+              AuthBloc(GetIt.instance, context.read<AppSettingBloc>())
+                ..initialize(),
+        ),
+      ],
       child: MyApp(db),
     ),
   );
@@ -40,29 +52,38 @@ class MyApp extends StatelessWidget {
   final DBInterface db;
   const MyApp(this.db, {super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    AppSettingBloc appSettingsWatcher = context.watch<AppSettingBloc>();
+    AppSettingBloc appSettingsReader = context.read<AppSettingBloc>();
     LocalJsonLocalization.delegate.directories = ['lib/i18n'];
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        // delegate from localization package.
-        LocalJsonLocalization.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('ar', 'AR'),
-      ],
-      locale: const Locale("ar", "AR"),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const StartMenu(),
-    );
+    switch (appSettingsWatcher.state.status) {
+      case AppSettingStatus.loading:
+      case AppSettingStatus.initial:
+        return const Center(child: CircularProgressIndicator());
+      case AppSettingStatus.error:
+        return Center(child: Text(context.read<AppSettingBloc>().state.error!));
+      case AppSettingStatus.success:
+        return MaterialApp(
+          title: 'Flutter Demo',
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            // delegate from localization package.
+            LocalJsonLocalization.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', 'US'),
+            Locale('ar', 'AR'),
+          ],
+          locale: appSettingsReader.state.language,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const StartMenu(),
+        );
+    }
   }
 }

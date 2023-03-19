@@ -9,6 +9,8 @@ class Product extends Table implements Equatable {
   final String category;
   final double cost;
   final int quantity;
+  final String barcode;
+  String? priceId;
 
   Product.fromEmpty({
     this.name = "",
@@ -18,7 +20,7 @@ class Product extends Table implements Equatable {
     this.category = "",
     this.cost = 0,
     this.quantity = 0,
-    bool? isDeleted,
+    this.barcode = "",
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,
@@ -26,8 +28,7 @@ class Product extends Table implements Equatable {
             id: '',
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   Product({
     required this.name,
@@ -38,7 +39,7 @@ class Product extends Table implements Equatable {
     required this.cost,
     required this.quantity,
     required id,
-    bool? isDeleted,
+    required this.barcode,
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,
@@ -46,19 +47,18 @@ class Product extends Table implements Equatable {
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   @override
   toJson() {
     return {
       "name": name,
       "description": description,
-      "price": price,
+      "priceId": priceId,
       "image": image,
       "category": category,
-      "cost": cost,
       "quantity": quantity,
+      "barcode": barcode,
       ...super.toJson(),
     };
   }
@@ -74,10 +74,41 @@ class Product extends Table implements Equatable {
       id: json['id'],
       cost: double.parse(json['cost']),
       quantity: int.parse(json['quantity']),
-      isDeleted: json['isDeleted'] == 1,
+      barcode: json['barcode'] ?? "",
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
       deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
+    );
+  }
+
+  //copyWith
+  Product copyWith({
+    String? name,
+    String? description,
+    double? price,
+    String? image,
+    String? category,
+    double? cost,
+    int? quantity,
+    String? id,
+    String? barcode,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+  }) {
+    return Product(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      image: image ?? this.image,
+      category: category ?? this.category,
+      cost: cost ?? this.cost,
+      quantity: quantity ?? this.quantity,
+      id: id ?? this.id,
+      barcode: barcode ?? this.barcode,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -102,7 +133,6 @@ class Product extends Table implements Equatable {
       "category",
       "cost",
       "quantity",
-      "isDeleted",
       "createdAt",
       "updatedAt",
       "deletedAt",
@@ -119,7 +149,6 @@ class Product extends Table implements Equatable {
       category,
       cost,
       quantity,
-      isDeleted,
       createdAt,
       updatedAt,
       deletedAt,

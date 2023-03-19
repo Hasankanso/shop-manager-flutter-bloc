@@ -1,5 +1,4 @@
-- add a search bar to the products list
-- implement authentication/user creation
+- DONE implement authentication/user creation 
 - display name of product/user instead of id in the tableViews
 - create a sell product page
 - create a restock page

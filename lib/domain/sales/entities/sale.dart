@@ -19,7 +19,6 @@ class Sale extends Table implements Equatable {
       this.productDiscount,
       this.customerId,
       this.userId,
-      bool? isDeleted = false,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? deletedAt})
@@ -27,13 +26,10 @@ class Sale extends Table implements Equatable {
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   @override
   Table fromJson(Map<String, dynamic> json) {
-    print(json);
-
     return Sale(
       id: json['id'],
       productId: json['productId'],
@@ -43,7 +39,6 @@ class Sale extends Table implements Equatable {
       productDiscount: double.parse(json['productDiscount']),
       customerId: json['customerId'],
       userId: json['userId'],
-      isDeleted: json['isDeleted'] == 1,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
       deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),

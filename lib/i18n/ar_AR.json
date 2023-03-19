@@ -49,5 +49,6 @@
     "Start Menu" : "القائمة الرئيسية",
     "Required Quantity is not available" : "الكمية المطلوبة غير متوفرة",
     "Warning! You're not making profit with this action, are you sure? the losses" : "تحذير! لا تحقق الربح من هذا الاجراء, هل انت متأكد؟ الخسائر",
-    "Quantity must be greater than 0" : "الكمية يجب ان تكون اكبر من 0"
+    "Quantity must be greater than 0" : "الكمية يجب ان تكون اكبر من 0",
+    "Search": "بحث"
 }

@@ -35,7 +35,8 @@ class SaleRepository extends CommonRepo<Sale>
   }
 
   @override
-  Future<Either<RequestError, int>> getAllCount() async {
+  Future<Either<RequestError, int>> getAllCount(
+      {Map<String, dynamic>? containsFilter}) async {
     try {
       var response = await db.query("SELECT COUNT(*) FROM $tableName");
       return Right(int.parse(response[0]["COUNT(*)"]));

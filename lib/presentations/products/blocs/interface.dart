@@ -15,7 +15,7 @@ abstract class ProductBlocInterface extends Cubit<ProductState>
   Future<void> deleteProduct(Product p);
   Future<void> sellProduct(Product p, int quantity, double price);
   Future<void> buyProduct(Product p, int quantity, double price);
-  Future<void> searchProduct(String query);
+  Future<void> searchProduct(String searchString);
 
   @override
   void nextPage();

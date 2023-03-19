@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:shop_manager/data/common/repo_interface.dart';
+import 'package:shop_manager/data/common/utils.dart';
 import 'package:shop_manager/data/data_infra/utils/jsonizer.dart';
 import 'package:shop_manager/domain/common_params/params/delete_params.dart';
 import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
@@ -52,10 +53,12 @@ class CommonRepo<T> implements CommonRepoInterface<T> {
       GetAllParams args, Table factory) async {
     int page = (args.page - 1) * args.perPage;
 
+    String containsString = DataUtils.containsFilterToQuery(args.containsFilter,
+        includeWhere: true);
     try {
       var response = await db.select<T>(
           tableName,
-          "LIMIT ${args.perPage * 2} OFFSET $page",
+          "$containsString LIMIT ${args.perPage * 2} OFFSET $page",
           factory,
           {"page": args.perPage});
       return Right(response);
@@ -76,9 +79,15 @@ class CommonRepo<T> implements CommonRepoInterface<T> {
   }
 
   @override
-  Future<Either<RequestError, int>> getAllCount() async {
+  Future<Either<RequestError, int>> getAllCount(
+      {Map<String, dynamic>? containsFilter}) async {
     try {
-      var response = await db.query("SELECT COUNT(*) FROM $tableName");
+      //convert filterContains to db query
+      String containsString =
+          DataUtils.containsFilterToQuery(containsFilter, includeWhere: true);
+
+      var response =
+          await db.query("SELECT COUNT(*) FROM $tableName $containsString");
       return Right(int.parse(response[0]["COUNT(*)"]));
     } catch (e) {
       return Left(

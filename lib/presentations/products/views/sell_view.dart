@@ -95,7 +95,10 @@ class SellProductView extends StatelessWidget {
                           ],
                         );
                       }));
-                  return;
+                } else {
+                  await context
+                      .read<ProductBloc>()
+                      .sellProduct(product, quantity, price);
                 }
               },
               child: Text("Sell".i18n()),

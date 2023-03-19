@@ -84,15 +84,15 @@ class AddProductView extends StatelessWidget {
                 if (key.currentState?.validate() ?? false) {
                   int quantity = int.parse(quantityController.text);
                   Product p = Product(
-                    id: const Uuid().v4(),
-                    name: nameController.text,
-                    price: double.parse(priceController.text),
-                    cost: double.parse(costController.text),
-                    description: descriptionController.text,
-                    category: categoryController.text,
-                    image: "",
-                    quantity: quantity,
-                  );
+                      id: const Uuid().v4(),
+                      name: nameController.text,
+                      price: double.parse(priceController.text),
+                      cost: double.parse(costController.text),
+                      description: descriptionController.text,
+                      category: categoryController.text,
+                      image: "",
+                      quantity: quantity,
+                      barcode: "");
 
                   await context.read<ProductBloc>().createProduct(p);
                 }

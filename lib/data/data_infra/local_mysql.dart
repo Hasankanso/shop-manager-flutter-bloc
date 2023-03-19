@@ -49,10 +49,11 @@ class MySQLDB implements DBInterface {
   }
 
   @override
-  Future<List<T>> select<T>(String table, String query, Table builder,
-      Map<String, dynamic>? args) async {
-    var results =
-        await dbConnection.execute("Select * from $table $query", args);
+  Future<List<T>> select<T>(
+      String table, String query, Table builder, Map<String, dynamic>? args,
+      {String? columnNames}) async {
+    var results = await dbConnection.execute(
+        "Select ${columnNames ?? "*"} from $table $query", args);
 
     List<T> list = [];
     for (final row in results.rows) {
@@ -78,7 +79,21 @@ class MySQLDB implements DBInterface {
     }
     query = query.substring(0, query.length - 2);
     query += " WHERE id = '${data.id}'";
-
     return dbConnection.execute(query);
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> rawQuery(
+      String query, Map<String, dynamic>? args) async {
+    //implement a method to execute raw queries using dbConnection passing the args
+    var result = await dbConnection.execute(query, args);
+
+    List<Map<String, dynamic>> list = [];
+
+    for (final row in result.rows) {
+      list.add(row.assoc());
+    }
+
+    return list;
   }
 }

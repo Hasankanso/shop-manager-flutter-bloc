@@ -1,9 +1,14 @@
 import 'package:get_it/get_it.dart';
+import 'package:shop_manager/data/data_infra/app_settings.dart';
 import 'package:shop_manager/data/data_infra/interfaces/db_interface.dart';
 import 'package:shop_manager/data/data_infra/local_mysql.dart';
+import 'package:shop_manager/data/prices/repo.dart';
 import 'package:shop_manager/data/products/repo.dart';
 import 'package:shop_manager/data/sales/sale_repo.dart';
 import 'package:shop_manager/data/users/user_repo.dart';
+import 'package:shop_manager/domain/app_settings/app_settings_interface.dart';
+import 'package:shop_manager/domain/auth/usecases/login_case.dart';
+import 'package:shop_manager/domain/prices/prices_repo_interface.dart';
 import 'package:shop_manager/domain/products/repositories/repo_interface.dart';
 import 'package:shop_manager/domain/products/usecases/create.dart';
 import 'package:shop_manager/domain/products/usecases/get_all.dart';
@@ -27,6 +32,7 @@ class DI {
     var userRepo = getIt.get<UserRepoInterface>();
     getIt.registerFactory(() => GetAllUsersCase(userRepo));
     getIt.registerFactory(() => CreateUserCase(userRepo));
+    getIt.registerFactory(() => LoginCase(userRepo));
 
     getIt.registerSingleton<SaleRepositoryInterface>(SaleRepository(db: db));
     var saleRepo = getIt.get<SaleRepositoryInterface>();
@@ -34,12 +40,18 @@ class DI {
     getIt.registerFactory(() => UpdateSaleCase(saleRepo));
     getIt.registerFactory(() => DeleteSaleCase(saleRepo));
 
+    getIt.registerSingleton<PriceRepoInterface>(PriceRepo(db: db));
+    var priceRepo = getIt.get<PriceRepoInterface>();
+
     getIt
         .registerFactory<ProductRepoInterface>(() => ProductRepository(db: db));
     var productRepo = getIt.get<ProductRepoInterface>();
-    getIt.registerFactory(() => GetAllProductsCase(productRepo));
+    getIt.registerFactory(() => GetAllProductsCase(productRepo, priceRepo));
     getIt.registerFactory(
         () => SellProductCase(productRepo: productRepo, saleRepo: saleRepo));
-    getIt.registerFactory(() => CreateProductCase(productRepo));
+
+    getIt.registerFactory(() => CreateProductCase(productRepo, priceRepo));
+
+    getIt.registerSingleton<AppSettingInterface>(AppSettings());
   }
 }

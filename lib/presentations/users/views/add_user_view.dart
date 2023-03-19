@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localization/localization.dart';
 import 'package:shop_manager/domain/users/entities/user.dart';
-import 'package:shop_manager/presentations/auth/auth_bloc.dart';
+import 'package:shop_manager/presentations/users/blocs/interfaces/user_bloc_interface.dart';
+import 'package:uuid/uuid.dart';
 
 class AddUserView extends StatelessWidget {
   AddUserView({super.key});
@@ -39,18 +40,18 @@ class AddUserView extends StatelessWidget {
                 controller: positionController,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  User user = User(
+                    id: const Uuid().v4(),
+                    firstName: firstNameController.text,
+                    lastName: lastNameController.text,
+                    position: positionController.text,
+                  );
+
                   context
-                      .read<AuthBloc>()
-                      .createUser(
-                        User(
-                          id: '',
-                          firstName: firstNameController.text,
-                          lastName: lastNameController.text,
-                          position: positionController.text,
-                        ),
-                      )
-                      .then((_) => Navigator.pop(context));
+                      .read<UserBlocInterface>()
+                      .createUser(user)
+                      .then((value) => Navigator.pop(context));
                 },
                 child: Text("Create Account".i18n()),
               )

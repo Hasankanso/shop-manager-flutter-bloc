@@ -13,5 +13,6 @@ abstract class ProductRepoInterface {
   Future<Either<RequestError, void>> updateProduct(UpdateProductParams args);
   Future<Either<RequestError, void>> deleteProduct(DeleteParams args);
 
-  FutureOr<Either<RequestError, int>> getAllProductsCount();
+  FutureOr<Either<RequestError, int>> getAllProductsCount(
+      {Map<String, dynamic>? containsFilter});
 }

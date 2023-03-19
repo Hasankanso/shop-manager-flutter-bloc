@@ -8,6 +8,7 @@ import 'package:shop_manager/domain/products/repositories/params/update.dart';
 import 'package:shop_manager/domain/products/repositories/repo_interface.dart';
 import 'package:shop_manager/domain/sales/entities/sale.dart';
 import 'package:shop_manager/domain/sales/repositories/sale_repo_interface.dart';
+import 'package:shop_manager/domain/users/entities/user.dart';
 import 'package:shop_manager/domain/utils/request_error.dart';
 import 'package:use_case/use_case.dart';
 import 'package:uuid/uuid.dart';
@@ -27,7 +28,7 @@ class SellProductCase implements UseCase<Either<RequestError, void>> {
     if (customerObj != null) {
       customer = customerObj as Customer;
     }
-    Person? user = args['user'] as Person;
+    User? user = args['user'] as User;
     int quantity = args['quantity'] as int;
     if (quantity > product.quantity) {
       return Left(RequestError("Required Quantity is not available".i18n()));

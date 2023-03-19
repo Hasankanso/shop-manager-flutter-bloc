@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:shop_manager/data/common/utils.dart';
 import 'package:shop_manager/domain/common_params/params/delete_params.dart';
 import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
 import 'package:shop_manager/domain/persons/entities/person.dart';
@@ -50,19 +51,21 @@ class UserRepository implements UserRepoInterface {
 
   @override
   Future<Either<RequestError, List<User>>> getUsers(GetAllParams args) async {
-    int page = (args.page - 1) * args.perPage;
-    var response = await db.select<User>(
-        tableName,
-        "LIMIT ${args.perPage * 2} OFFSET $page",
-        User(id: ''),
-        {"page": args.perPage});
+    try {
+      int page = (args.page - 1) * args.perPage;
+      String equalFilter =
+          DataUtils.equalFilter(args.equalFilter, includeWhere: true);
+      var response = await db.select<User>(
+          tableName,
+          "$equalFilter LIMIT ${args.perPage * 2} OFFSET $page",
+          User(id: ''),
+          {"page": args.perPage});
 
-    if (response.isEmpty) {
+      return Right(response);
+    } catch (e) {
       return Left(
-          RequestError.fromHttp(message: "No users found", statusCode: 404));
+          RequestError.fromHttp(message: e.toString(), statusCode: 404));
     }
-
-    return Right(response);
   }
 
   @override

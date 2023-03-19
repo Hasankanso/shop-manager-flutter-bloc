@@ -13,7 +13,6 @@ class Person extends Table implements Equatable {
     this.firstName = "",
     this.lastName = "",
     this.position = "",
-    bool? isDeleted,
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,
@@ -21,8 +20,7 @@ class Person extends Table implements Equatable {
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
   @override
   toJson() {
@@ -41,7 +39,6 @@ class Person extends Table implements Equatable {
       firstName: json['firstName'],
       lastName: json['lastName'],
       position: json['position'],
-      isDeleted: json['isDeleted'] == 1,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
       deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),

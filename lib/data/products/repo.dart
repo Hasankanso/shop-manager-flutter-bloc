@@ -1,4 +1,5 @@
 import 'package:shop_manager/data/common/repo.dart';
+import 'package:shop_manager/data/common/utils.dart';
 import 'package:shop_manager/domain/products/repositories/params/update.dart';
 import 'package:shop_manager/domain/products/entities/product.dart';
 import 'package:shop_manager/domain/common_params/params/gel_all_params.dart';
@@ -24,8 +25,9 @@ class ProductRepository extends CommonRepo<Product>
   }
 
   @override
-  Future<Either<RequestError, int>> getAllProductsCount() {
-    return super.getAllCount();
+  Future<Either<RequestError, int>> getAllProductsCount(
+      {Map<String, dynamic>? containsFilter}) {
+    return super.getAllCount(containsFilter: containsFilter);
   }
 
   @override
@@ -34,8 +36,25 @@ class ProductRepository extends CommonRepo<Product>
   }
 
   @override
-  Future<Either<RequestError, List<Product>>> getProducts(GetAllParams args) {
-    return super.getAll(args, Product.fromEmpty());
+  Future<Either<RequestError, List<Product>>> getProducts(
+      GetAllParams args) async {
+    int page = (args.page - 1) * args.perPage;
+    try {
+      var response = await db.select<Product>(
+          tableName,
+          "JOIN prices ON products.id=prices.productId "
+          "WHERE products.deletedAt is NULL AND prices.deletedAt is NULL "
+          "ORDER BY prices.createdAt DESC LIMIT ${args.perPage * 2} OFFSET $page",
+          Product.fromEmpty(),
+          {},
+          columnNames:
+              "products.*, prices.price as price, prices.cost as cost");
+
+      return Right(response);
+    } catch (e) {
+      return Left(
+          RequestError.fromHttp(message: e.toString(), statusCode: 500));
+    }
   }
 
   @override

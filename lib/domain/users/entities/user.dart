@@ -6,6 +6,9 @@ class User extends Table implements Equatable {
   final String lastName;
   final String position;
 
+  final String password;
+  final String username;
+
   fullName() => "$firstName $lastName";
 
   User({
@@ -13,7 +16,8 @@ class User extends Table implements Equatable {
     this.firstName = "",
     this.lastName = "",
     this.position = "",
-    bool? isDeleted,
+    this.password = "",
+    this.username = "",
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,
@@ -21,16 +25,30 @@ class User extends Table implements Equatable {
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            isDeleted: isDeleted);
+            deletedAt: deletedAt);
 
-  User copyWith(
-      {String? id, String? firstName, String? lastName, String? position}) {
+  User copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? position,
+    String? password,
+    String? username,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+  }) {
     return User(
-        id: id ?? this.id,
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
-        position: position ?? this.position);
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      position: position ?? this.position,
+      password: password ?? this.password,
+      username: username ?? this.username,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+    );
   }
 
   @override
@@ -39,6 +57,8 @@ class User extends Table implements Equatable {
       "firstName": firstName,
       "lastName": lastName,
       "position": position,
+      "username": username,
+      "password": password,
       ...super.toJson(),
     };
   }
@@ -50,7 +70,8 @@ class User extends Table implements Equatable {
       firstName: json['firstName'],
       lastName: json['lastName'],
       position: json['position'],
-      isDeleted: json['isDeleted'],
+      username: json['username'],
+      password: json['password'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
       deletedAt: DateTime.tryParse(json['deletedAt'] ?? ''),
