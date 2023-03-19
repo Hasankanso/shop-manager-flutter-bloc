@@ -80,4 +80,29 @@ class Sale extends Table implements Equatable {
 
   @override
   bool? get stringify => true;
+
+  //getColumns
+  static List<String> getColumns() {
+    return [
+      'productId',
+      'productCost',
+      'productPrice',
+      'productQuantity',
+      'productDiscount',
+      'customerId',
+      'userId',
+    ];
+  }
+
+  List<Object?> getValues() {
+    return [
+      productId,
+      productCost,
+      productPrice,
+      productQuantity,
+      productDiscount,
+      customerId,
+      userId,
+    ];
+  }
 }

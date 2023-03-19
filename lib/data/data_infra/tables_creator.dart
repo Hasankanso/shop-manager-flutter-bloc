@@ -7,6 +7,8 @@ class CreateTables {
   CreateTables({required this.db});
 
   Future<void> createAll() async {
+    await db.query(
+        "ALTER DATABASE shopmanager CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
     await db.query("CREATE TABLE IF NOT EXISTS users ("
         "id VARCHAR(255) PRIMARY KEY,"
         "firstName VARCHAR(255),"

@@ -56,7 +56,7 @@ class SaleBloc extends SaleBlocInterface {
   @override
   void get() async {
     var response = await getAllSaleCase
-        .execute(GetAllParams(page: state.page, pageSize: state.pageSize));
+        .execute(GetAllParams(page: 1, pageSize: state.pageSize));
 
     response.fold(
         (l) => emit(state.copyWith(

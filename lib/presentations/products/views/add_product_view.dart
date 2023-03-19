@@ -94,7 +94,20 @@ class AddProductView extends StatelessWidget {
                       quantity: quantity,
                       barcode: "");
 
-                  await context.read<ProductBloc>().createProduct(p);
+                  context.read<ProductBloc>().createProduct(p).then((value) {
+                    //show message for suyccefully adding product
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Colors.green.shade700,
+                        content: SizedBox(
+                            height: 80,
+                            child: Center(
+                              child: Text(
+                                "Product has been successfully added".i18n(),
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ))));
+                  });
                 }
               },
               child: Text("Create".i18n()),

@@ -125,7 +125,6 @@ class Product extends Table implements Equatable {
 
   static List<String> getColumns() {
     return [
-      "id",
       "name",
       "description",
       "price",
@@ -134,14 +133,11 @@ class Product extends Table implements Equatable {
       "cost",
       "quantity",
       "createdAt",
-      "updatedAt",
-      "deletedAt",
     ];
   }
 
   List<dynamic> getValues() {
     return [
-      id,
       name,
       description,
       price,
@@ -150,8 +146,6 @@ class Product extends Table implements Equatable {
       cost,
       quantity,
       createdAt,
-      updatedAt,
-      deletedAt,
     ];
   }
 }

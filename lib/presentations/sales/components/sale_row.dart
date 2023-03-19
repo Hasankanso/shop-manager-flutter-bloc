@@ -7,7 +7,7 @@ class SaleRow {
 
   SaleRow(this.item) {
     rowWidgets =
-        item.toJson().values.map((value) => Text(value.toString())).toList();
+        item.getValues().map((value) => Text(value.toString())).toList();
   }
 
   List<Widget> getRowWidgets() {
